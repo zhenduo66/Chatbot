@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<title>firstweb</title>
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            function makeTheCall(queryString) {
+              successResponse = function(data) {
+              //functionality goes here;
+              console.log("success");
+              $("p").html(data.message);
+              console.log("the result = " + data.message);
+              }
+              failureFunction = function(data) {
+                  //functionality goes here;
+                  console.log("fail");
+              }
+                var destinationUrl = "https://5rorhfa1mb.execute-api.us-east-1.amazonaws.com/test/seatle";
+                var data = new Object()
+                data['name2'] = "zhenduo";
+                data['city'] = "New York";
+                data['message'] = queryString;
+                data = JSON.stringify(data);
+                $.ajax({
+                  type: 'POST',
+                  url: destinationUrl + queryString,
+                  dataType: 'json', // use json only, not jsonp
+                  crossDomain: true, // tell browser to allow cross domain.
+                  success: successResponse,
+                  error: failureFunction,
+                  headers: {'x-api-key': 'poHeSUZRuL3LWWkAkbUHx9V9lKdJYUPbMOHoM149'},
+                  data: data
+                });
+              }
+          $("button#sentbnt").click(function(){
+            console.log("in click");
+            inputStr = $(" input[ name='message' ] ").val();
+            console.log("the input = " + inputStr);
+            makeTheCall(inputStr);
+          });
+             
+        });
+    </script>
+    <p>default</p>
+    input message: <input type="text" name="message" />
+    <button type="button" id = "sentbnt">sent</button>
+</body>
+</html>
